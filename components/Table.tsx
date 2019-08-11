@@ -1,8 +1,9 @@
-import { Text, TextStyle, ViewStyle, StyleSheet } from 'react-native';
 import React from 'react';
+
+import { Text, TextStyle, ViewStyle, StyleSheet } from 'react-native';
 
 export default function({children}) {
     return (
-        <Text>Hello{children}</Text>       
+        <Text>Hello {children}</Text>       
     )
 }

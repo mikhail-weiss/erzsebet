@@ -1,25 +1,27 @@
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, GestureResponderEvent, ScrollView } from 'react-native';
 import React from 'react';
+import { Card } from './Card';
 
 
 export default function ({cards}) {
-  const _onPressButton = () => {
-    alert('You tapped the button!')
+  const _onPressButton = (event: GestureResponderEvent) => {
+    alert(event)
   };
-  return <View style={{flexDirection: 'row'}}>
-    {cards.map(card => (
+
+  return <ScrollView contentContainerStyle={styles.handContainer} horizontal={true} centerContent={true}>
+    {cards.map((card: Card) => (
       <TouchableHighlight key={card.name} onPress={_onPressButton} underlayColor='blue'>
         <View style={styles.card}>
           <Text style={styles.title}>{card.name}</Text>
-          <Text>hp: {card.health}</Text>
-          <Text>dmg: {card.attack}</Text>
+          <Text>dmg: {card.dmg}</Text>
         </View>
       </TouchableHighlight>
     ))}
-  </View>
+  </ScrollView>
 }
 
 const styles = StyleSheet.create({
+
   title: {
     textAlign: 'center',
     marginBottom: 2,
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     borderColor: '#d6d7da',
     padding: 5,
     height: 100
+  },
+  handContainer: {flexGrow: 1, justifyContent: 'center'}
 
-  }
 });

@@ -1,50 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextStyle, ViewStyle } from 'react-native';
-import Hand from './components/Hand';
-import Table from './components/Table';
+import { StyleSheet } from 'react-native';
+import {createSwitchNavigator, createAppContainer } from 'react-navigation';
+import Battle from './components/Battle';
+import Home from './components/Home';
 
-let cards = [{
-  name: 'jaeger',
-  health: 100,
-  attack: 10
-},
-{
-  name: 'claws',
-  attack: 10
-},
-{
-  name: 'charm',
-  attack: 10
-}];
+const MainNavigator =  createSwitchNavigator({
+  Home: {screen: Home},
+  Battle: {screen: Battle},
+});
 
-export default function App() {
-  return (
-    <View style={style.container}>
-      <View style={style.table}>
-        <Table >Lena</Table>
-      </View>
-      <View style={style.hand}>
-        <Hand cards={cards}></Hand>
-      </View>
-    </View>
-  );
-}
-
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
-  table: {
-    flex: 10,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  hand: {
-    flex: 2,
-    justifyContent: 'center',
-}})
+const App = createAppContainer(MainNavigator);
+export default App;
