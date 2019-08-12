@@ -1,19 +1,22 @@
 import { StyleSheet, Text, View, TouchableHighlight, GestureResponderEvent, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import { Card } from './Card';
 
 
-export default function ({cards}) {
-  const _onPressButton = (event: GestureResponderEvent) => {
-    alert(event)
-  };
+export default function ({onPlay, cards}) {
+  let [availableCards, setAvailableCards]: [Card[], Dispatch<SetStateAction<Card[]>>] = useState(cards);
+  const play = (card: Card) => {
+    
+    setAvailableCards(availableCards.filter((cardInHand: Card) => cardInHand !== card));
+    onPlay(card)
+  }
 
   return <ScrollView contentContainerStyle={styles.handContainer} horizontal={true} centerContent={true}>
-    {cards.map((card: Card) => (
-      <TouchableHighlight key={card.name} onPress={_onPressButton} underlayColor='blue'>
+    {availableCards.map((card: Card) => (
+      <TouchableHighlight key={card.name} onPress={() => play(card)} underlayColor='blue'>
         <View style={styles.card}>
           <Text style={styles.title}>{card.name}</Text>
-          <Text>dmg: {card.dmg}</Text>
+          <Text>{card.description}</Text>
         </View>
       </TouchableHighlight>
     ))}
@@ -33,7 +36,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#d6d7da',
     padding: 5,
-    height: 100
+    height: 120,
+    width: 90
   },
   handContainer: {flexGrow: 1, justifyContent: 'center'}
 

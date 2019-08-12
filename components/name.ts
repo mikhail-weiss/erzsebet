@@ -2,7 +2,7 @@ function getRandom(items: string[]) {
     return items[Math.floor(Math.random()*items.length)];
 }
 export const name = () => {
-    return getRandom(lastNamePrefix) + getRandom(lastNameSuffix);      
+    return `${getRandom(lastNamePrefix)} ${getRandom(lastNameSuffix)}`;      
 }
 
 const lastNamePrefix = [
