@@ -9,6 +9,7 @@ export class Card {
 }
 
 export class State {
+    hero = { health: 16 };
     enemy = { health: 16 };
     powers: Power[] = []
     boosts: Power[] = []

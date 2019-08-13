@@ -4,16 +4,9 @@ import { Card } from './Card';
 
 
 export default function ({onPlay, cards}) {
-  let [availableCards, setAvailableCards]: [Card[], Dispatch<SetStateAction<Card[]>>] = useState(cards);
-  const play = (card: Card) => {
-    
-    setAvailableCards(availableCards.filter((cardInHand: Card) => cardInHand !== card));
-    onPlay(card)
-  }
-
   return <ScrollView contentContainerStyle={styles.handContainer} horizontal={true} centerContent={true}>
-    {availableCards.map((card: Card) => (
-      <TouchableHighlight key={card.name} onPress={() => play(card)} underlayColor='blue'>
+    {cards.map((card: Card) => (
+      <TouchableHighlight key={card.name} onPress={() => onPlay(card)} underlayColor='blue'>
         <View style={styles.card}>
           <Text style={styles.title}>{card.name}</Text>
           <Text>{card.description}</Text>

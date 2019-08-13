@@ -8,13 +8,13 @@ export default function Home({ navigation }) {
   return (
     <View style={style.container} >
       <View style={style.button}>
-        <Button title="D" onPress={() => navigation.navigate('Battle', { cards: D })} />
+        <Button title="D" onPress={() => navigation.navigate('Battle', { cards: D() })} />
       </View>
       <View style={style.button}>
-        <Button title="XB" onPress={() => navigation.navigate('Battle', { cards: XB })} />
+        <Button title="XB" onPress={() => navigation.navigate('Battle', { cards: XB() })} />
       </View>
       <View style={style.button}>
-        <Button title="XT" onPress={() => navigation.navigate('Battle', { cards: XT })} />
+        <Button title="XT" onPress={() => navigation.navigate('Battle', { cards: XT() })} />
       </View>
     </View>
   );
