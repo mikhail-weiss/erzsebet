@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableHighlight, GestureResponderEvent, ScrollView } from 'react-native';
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import { Card } from './Card';
+import { Card } from './Model';
 
 
 export default function ({onPlay, cards}) {
