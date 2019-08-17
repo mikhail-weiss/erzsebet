@@ -6,7 +6,8 @@ import { withMappedNavigationParams } from 'react-navigation-props-mapper'
 import { Card, Player } from './Model';
 
 
-function Battle({ navigation, cards, enemyCards }) {
+const CHAPTERS = 5;
+function Battle({ navigation, cards, enemyCards, count = CHAPTERS}) {
     const [hero, setHero] = useState(new Player(16, cards));
     const [enemy, setEnemy] = useState(new Player(16, enemyCards));
 
@@ -24,11 +25,11 @@ function Battle({ navigation, cards, enemyCards }) {
     }
     useEffect(() => {
         if (hero.health <= 0) {
-            navigation.navigate('Lost');
+            navigation.navigate('Lost', {cards});
         }
 
         if (enemy.health <= 0) {
-            navigation.navigate('Win');
+            navigation.navigate('Win', {cards, count});
         }
     });
 
@@ -45,6 +46,7 @@ function Battle({ navigation, cards, enemyCards }) {
     }
 
     return (<View style={style.container}>
+        <Text>Chapter {CHAPTERS + 1 - count}</Text>
         <View style={style.hand}>
             <Hand onPlay={(card: Card) => undefined} cards={enemy.hand}></Hand>
         </View>

@@ -36,8 +36,8 @@ export const XB = (): Card[] => shuffle(buldify([1, 1, 1, 3, 8]).concat([{
             return card;
         })
     }), enemy]
-}])
-);
+}]));
+
 export const XT = (): Card[] => shuffle(buldify([1, 1, 2, 6, 6, +2]).concat([{
     name: name(),
     damage: 0,
@@ -52,3 +52,7 @@ export const XT = (): Card[] => shuffle(buldify([1, 1, 2, 6, 6, +2]).concat([{
     }
 }]));
 
+export const nextEncounter = () => {
+    return [D, XB, XT][Math.floor((Math.random()*3))]();
+  }
+  

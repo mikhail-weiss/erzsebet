@@ -1,12 +1,9 @@
 import React from 'react';
 import { View, Button } from "react-native";
-import { D, XB, XT } from "./builds";
+import { D, XB, XT, nextEncounter } from "./builds";
 import { StyleSheet } from 'react-native';
+import { Player } from './Model';
 
-const nextEncounter = () => {
-  return [D, XB, XT][Math.floor((Math.random()*3))]();
-  
-}
 
 export default function Home({ navigation }) {
   return (

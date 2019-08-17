@@ -12,8 +12,13 @@ export class Player {
     powers: Power[] = [];
     boosts: Power[] = [];
     hand: Card[] = [];
+    deck: Card[];
     
-    constructor(public health: number, public deck: Card[]) {}
+    constructor(public health: number, deck: Card[]) {
+        this.deck = deck.slice();
+    }
+
+
 
     play = function(card: Card): Player {
         this.powers.forEach(power => {
