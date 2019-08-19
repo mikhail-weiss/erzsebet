@@ -3,7 +3,8 @@ import { View, StyleSheet, Text, Button, StatusBar } from 'react-native';
 import Hand from 'components/Hand';
 import Table from 'components/Table';
 import { withMappedNavigationParams } from 'react-navigation-props-mapper'
-import { Card, Player } from './Model';
+import { Player } from './model/Model';
+import { Card } from './model/Cards';
 
 
 const CHAPTERS = 5;
@@ -36,7 +37,8 @@ function Battle({ navigation, cards, enemyCards, count = CHAPTERS}) {
     const play = (card: Card, hero: Player, enemy: Player) => {
         let newHero = hero.play(card);
         let newEnemy = enemy;
-        return card.effect.call(card, newHero, newEnemy);
+        return [hero, enemy];
+        // return card.play(card, newHero, newEnemy);
     }
 
     const heroCard = (card: Card) => {

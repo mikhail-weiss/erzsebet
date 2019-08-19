@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
+    "target": "es6",
     "paths": {
       "components/*":["components/*"]
     }

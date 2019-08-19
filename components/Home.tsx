@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Button } from "react-native";
-import { D, XB, XT, nextEncounter } from "./builds";
+import { D, XB, XT, nextEncounter } from "./model/builds";
 import { StyleSheet } from 'react-native';
-import { Player } from './Model';
-
 
 export default function Home({ navigation }) {
   return (
