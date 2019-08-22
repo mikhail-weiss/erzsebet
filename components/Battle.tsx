@@ -3,71 +3,52 @@ import { View, StyleSheet, Text, Button, StatusBar } from 'react-native';
 import Hand from 'components/Hand';
 import Table from 'components/Table';
 import { withMappedNavigationParams } from 'react-navigation-props-mapper'
-import { Player } from './model/Model';
-import { Card } from './model/Cards';
+import { Player, Encounter } from './model/Model';
+import { Card, Deck } from './model/Cards';
+import { nextEncounter } from './model/builds';
 
 
 const CHAPTERS = 5;
-function Battle({ navigation, cards, enemyCards, count = CHAPTERS}) {
-    const [hero, setHero] = useState(new Player(16, cards));
-    const [enemy, setEnemy] = useState(new Player(16, enemyCards));
+function Battle({ navigation, cards, enemyCards, count = CHAPTERS }:
+    { navigation: any, cards: Deck, enemyCards: Deck, count: number }) {
+    // const [hero, setHero] = useState();
+    // const [enemy, setEnemy] = useState();
+    const [encounter, setEncounter] = useState(new Encounter(new Player(16, cards), new Player(16, enemyCards)));
 
     const endTurn = () => {
-        let newHero = hero.endTurn();
-        let newEnemy = enemy;
-        let card = enemy.hand[enemy.hand.length-1];
-        if(card) {
-            [newEnemy, newHero] = play(card, enemy, newHero);
-        }
-        
-        newEnemy = newEnemy.endTurn();
-        setHero(newHero);
-        setEnemy(newEnemy);
+        setEncounter(encounter.endTurn());
     }
+
     useEffect(() => {
-        if (hero.health <= 0) {
-            navigation.navigate('Lost', {cards});
+        if (encounter.hero.health <= 0) {
+            navigation.navigate('Lost', { cards });
         }
 
-        if (enemy.health <= 0) {
-            navigation.navigate('Win', {cards, count});
+        if (encounter.enemy.health <= 0) {
+            navigation.navigate('Win', { cards, count });
         }
     });
-
-    const play = (card: Card, hero: Player, enemy: Player) => {
-        let newHero = hero.play(card);
-        let newEnemy = enemy;
-        return [hero, enemy];
-        // return card.play(card, newHero, newEnemy);
-    }
-
-    const heroCard = (card: Card) => {
-        const [newHero, newEnemy] = play(card, hero, enemy);
-        setHero(newHero);
-        setEnemy(newEnemy);
-    }
 
     return (<View style={style.container}>
         <Text>Chapter {CHAPTERS + 1 - count}</Text>
         <View style={style.hand}>
-            <Hand onPlay={(card: Card) => undefined} cards={enemy.hand}></Hand>
+            <Hand cards={encounter.enemy.hand}></Hand>
         </View>
 
         <View style={style.table}>
             <Table>
                 <Text style={{ alignSelf: 'center' }}>Enemy</Text>
-                <Text>Health: {enemy.health}</Text>
+                <Text>Health: {encounter.enemy.health}</Text>
                 <Text style={{ alignSelf: 'center' }}>Hero</Text>
-                <Text>Health: {hero.health}</Text>
+                <Text>Health: {encounter.hero.health}</Text>
             </Table>
         </View>
         <View style={style.hand}>
-            <Hand onPlay={(card: Card) => heroCard(card)} cards={hero.hand}></Hand>
+            <Hand onPlay={(card: Card) => setEncounter(encounter.heroPlaysCard(card))} cards={encounter.hero.hand}></Hand>
         </View>
         <Button title="end turn" onPress={() => endTurn()}></Button>
     </View>
-    )
-
+    );
 };
 
 export default withMappedNavigationParams()(Battle);

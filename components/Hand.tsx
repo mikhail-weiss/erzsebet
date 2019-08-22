@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, TouchableHighlight, GestureResponderEvent, ScrollView } from 'react-native';
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import { Card } from './model/Cards';
+import { Card, Deck } from './model/Cards';
 
-export default function ({ onPlay, cards }) {
+export default function ({ onPlay, cards }: {onPlay?: (card: Card) => void, cards: Deck}) {
   return <ScrollView contentContainerStyle={styles.handContainer} horizontal={true} centerContent={true}>
     {cards.map((card: Card) => (
         <TouchableHighlight key={card.id} onPress={() => onPlay(card)} underlayColor='blue'>

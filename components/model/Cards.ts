@@ -1,4 +1,4 @@
-import { ComponentType, FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { Encounter } from "./Model";
 
 // 5 dmg
@@ -20,21 +20,43 @@ export enum CardType {
 
 interface Shuffable {
     shuffle(): Deck;
+    remove(cardToRemove: Card): Deck;
+    with(card: Card): Deck;
+    reduce<U>(callbackfn: (previousValue: U, currentValue: Card, currentIndex: number, array: ReadonlyArray<Card>) => U, initialValue: U): U;
+    map<U>(callbackfn: (value: Card) => U): U[];
+    draw(): Card;
 }
-export type Deck = ReadonlyArray<Card> & Shuffable;
-   
-export class ShuffableDeck extends Array<Card> implements Shuffable {
-    constructor(...items: any) {
-        super(...items);
-        Object.setPrototypeOf(this, ShuffableDeck.prototype);
-    }
-    static create<T>(): ShuffableDeck {
-        return Object.create(ShuffableDeck.prototype);
+export type Deck = Shuffable;
+
+export class ShuffableDeck implements Shuffable {
+    items: readonly Card[];    
+    constructor(items?: readonly Card[]) {
+        this.items = items ? items.slice(): [];
     }
     
+    draw(): Card {        
+        return this.items[0];
+    }
+    
+    map<U>(callbackfn: (value: Card) => U): U[] {
+        return this.items.map(callbackfn);
+    }
+
+    reduce<U>(callbackfn: (previousValue: U, currentValue: Card, currentIndex: number, array: ReadonlyArray<Card>) => U, initialValue: U): U {
+        return this.items.reduce(callbackfn, initialValue);
+    }
+
+    remove(cardToRemove: Card): Deck {
+        return new ShuffableDeck(this.items.filter((card: Card) => cardToRemove.id !== card.id));
+    }
+
+    with(cardToAdd: Card): Deck {
+        return new ShuffableDeck(this.items.concat(cardToAdd));
+    }
+
     shuffle(): Deck {
-        let length = this.length;
-        let copy = this.slice();
+        let length = this.items.length;
+        let copy = this.items.slice();
         const shuffled: Card[] = [];
     
         for (let i = 0; i < length; i++) {
@@ -42,7 +64,7 @@ export class ShuffableDeck extends Array<Card> implements Shuffable {
     
             shuffled.push(...copy.splice(j, 1));
         }
-        return new ShuffableDeck(...shuffled);
+        return new ShuffableDeck(shuffled);
     }
 }
 
@@ -51,7 +73,6 @@ let globalId = 0;
 export interface Card {
     readonly id: number;
     readonly type: CardType;
-    readonly damage: number;
 
     cardPlayed(card: Card): Card;
     display: FunctionComponent<{}>;
@@ -63,7 +84,6 @@ export interface Card {
 export abstract class BaseCard implements Card {
     id: number;
     type: CardType = CardType.Default;
-    damage: number;
 
     constructor() {
         this.id = globalId++;         
@@ -75,6 +95,4 @@ export abstract class BaseCard implements Card {
     play = (table: Encounter): Encounter => table;
     
     abstract display: FunctionComponent<{}>;
-
-    // abstract display: ComponentType<{}>;
 }
