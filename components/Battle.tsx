@@ -13,7 +13,7 @@ function Battle({ navigation, cards, enemyCards, count = CHAPTERS }:
     { navigation: any, cards: Deck, enemyCards: Deck, count: number }) {
     // const [hero, setHero] = useState();
     // const [enemy, setEnemy] = useState();
-    const [encounter, setEncounter] = useState(new Encounter(new Player(16, cards), new Player(16, enemyCards)));
+    const [encounter, setEncounter] = useState(new Encounter(new Player(16, cards), new Player(16, enemyCards).draw()));
 
     const endTurn = () => {
         setEncounter(encounter.endTurn());

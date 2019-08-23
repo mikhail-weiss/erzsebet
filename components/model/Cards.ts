@@ -20,7 +20,7 @@ export enum CardType {
 
 interface Shuffable {
     shuffle(): Deck;
-    remove(cardToRemove: Card): Deck;
+    without(cardToRemove: Card): Deck;
     with(card: Card): Deck;
     reduce<U>(callbackfn: (previousValue: U, currentValue: Card, currentIndex: number, array: ReadonlyArray<Card>) => U, initialValue: U): U;
     map<U>(callbackfn: (value: Card) => U): U[];
@@ -46,7 +46,7 @@ export class ShuffableDeck implements Shuffable {
         return this.items.reduce(callbackfn, initialValue);
     }
 
-    remove(cardToRemove: Card): Deck {
+    without(cardToRemove: Card): Deck {
         return new ShuffableDeck(this.items.filter((card: Card) => cardToRemove.id !== card.id));
     }
 

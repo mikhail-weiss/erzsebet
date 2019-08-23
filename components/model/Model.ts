@@ -1,7 +1,9 @@
 import { Card, Deck, ShuffableDeck } from "./Cards";
 
 export class Encounter {
-    constructor(readonly hero: Player, readonly enemy: Player) {}
+    constructor(readonly hero: Player, readonly enemy: Player) {
+        
+    }
 
     endTurn() {
         let encounter: Encounter = this;
@@ -25,7 +27,7 @@ export class Encounter {
         let playing: Card = this.enemy.effects.reduce((finalCard: Card, effect: Card) => effect.cardPlayed(finalCard), card);
         let nextEncounter = playing.play(new Encounter(this.enemy, this.hero));
         nextEncounter = new Encounter(nextEncounter.enemy, nextEncounter.hero);
-        return nextEncounter.update({enemy: nextEncounter.enemy.remove(card)});
+        return nextEncounter.update({enemy: nextEncounter.enemy.without(card)});
     }
 
 
@@ -33,7 +35,7 @@ export class Encounter {
         if (!card) return this;
         let playing: Card = this.hero.effects.reduce((finalCard: Card, effect: Card) => effect.cardPlayed(finalCard), card);
         let nextEncounter = playing.play(this);        
-        return nextEncounter.update({hero: nextEncounter.hero.remove(card)});
+        return nextEncounter.update({hero: nextEncounter.hero.without(card)});
     }
 }
 
@@ -43,15 +45,27 @@ export class Player {
 
     draw(): Player {
         let card: Card = this.deck.draw();
-        return new Player(this.health, this.deck.remove(card), this.hand.with(card), this.effects);
+        if(card) {
+            return new Player(this.health, this.deck.without(card), this.hand.with(card), this.effects);
+        } else {
+            return this;
+        }
     }
 
-    remove(card: Card): Player {
-        return new Player(this.health, this.deck, this.hand.remove(card), this.effects);
+    without(card: Card): Player {
+        return new Player(this.health, this.deck, this.hand.without(card), this.effects);
     }
 
     update({health = this.health}) {
         return new Player(health, this.deck, this.hand, this.effects);
+    }
+
+    withEffect(card: Card) {
+        return new Player(this.health, this.deck, this.hand, this.effects.with(card));
+    }
+
+    withoutEffect(card: Card) {
+        return new Player(this.health, this.deck, this.hand, this.effects.without(card));
     }
     // play = function(card: Card): Player {
         // this.powers.forEach(power => {
