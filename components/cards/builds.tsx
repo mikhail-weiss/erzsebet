@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { Text, StyleSheet } from 'react-native';
-import { BaseCard, CardType, Deck, ShuffableDeck, Card } from './Cards';
-import { Encounter } from './Model';
+import { Text, StyleSheet, Image } from 'react-native';
+import { BaseCard, CardType, Deck, ShuffableDeck, Card } from '../model/Cards';
+import { Encounter } from '../model/Model';
 
 const styles = StyleSheet.create({
     title: { textAlign: 'center', marginBottom: 2, flex: 1 }
@@ -17,11 +17,7 @@ class Punch extends BaseCard {
     }
 
     display: FunctionComponent<{}> = () => (
-        <>
-            <Text style={styles.title}>Sucker Punch!</Text>
-            <Text>Makes a {this.dmg} damage</Text>
-            <Text>Touch (duh!)</Text>
-        </>
+        <Image source={require('./images/MurderOfCrows.png')} style={{width: '100%', height: '100%'}}/>        
     )
 }
 
@@ -49,10 +45,7 @@ class AddDamage extends BaseCard {
     }
 
     display: FunctionComponent<{}> = () => (
-        <>
-            <Text style={styles.title}>Doulbe damage!</Text>
-            <Text>Adds +2 to all damage this turn</Text>
-        </>
+        <Image source={require('./images/SwampMosquitoes.png')} style={{width: '100%', height: '100%'}}/>        
     )
 }
 
@@ -81,10 +74,7 @@ class DoubleDamage extends BaseCard {
     }
 
     display: FunctionComponent<{}> = () => (
-        <>
-            <Text style={styles.title}>Doulbe damage!</Text>
-            <Text>Doubles next damage</Text>
-        </>
+        <Image source={require('./images/ABeastInside.png')} style={{width: '100%', height: '100%'}}/>        
     )
 }
 

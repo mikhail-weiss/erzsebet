@@ -1,7 +1,7 @@
 import React from 'react';
 import {createSwitchNavigator, createAppContainer } from 'react-navigation';
-import Battle from 'components/Battle';
-import Home from 'components/Home';
+import Battle from 'components/battle/Battle';
+import Home from 'components/home/Home';
 import {Win, Lost} from 'components/End';
 
 const MainNavigator =  createSwitchNavigator({

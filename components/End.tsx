@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, Button, StyleSheet } from "react-native";
 import { Player } from './model/Model';
-import { nextEncounter } from './model/builds';
+import { nextEncounter } from './cards/builds';
 import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 
 
