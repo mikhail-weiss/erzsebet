@@ -11,18 +11,7 @@ export default function ({ onPlay = () => {}, cards }: { onPlay?: (card: Card) =
 
 
         <View style={styles.card}>
-          <Modal
-            animationType='fade'
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(false);
-            }}>
-              <View style={{height: 400, width: 300, justifyContent: 'center', alignItems: 'center' }}>
-                {card.display({})}
-              </View>
-
-          </Modal>
+          
           {card.display({})}
 
         </View>

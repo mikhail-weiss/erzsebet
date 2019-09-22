@@ -15,48 +15,53 @@ import { Encounter } from "./Model";
 
 export enum CardType {
     Default,
-    Touch
+    Touch,
+    Damage
 }
 
 interface Shuffable {
+    cards: readonly Card[];    
+    length: number;
     shuffle(): Deck;
     without(cardToRemove: Card): Deck;
     with(card: Card): Deck;
     reduce<U>(callbackfn: (previousValue: U, currentValue: Card, currentIndex: number, array: ReadonlyArray<Card>) => U, initialValue: U): U;
     map<U>(callbackfn: (value: Card) => U): U[];
-    draw(): Card;
+    draw(index?: number): Card;
 }
 export type Deck = Shuffable;
 
 export class ShuffableDeck implements Shuffable {
-    items: readonly Card[];    
+    cards: readonly Card[];    
+    public length: number;
     constructor(items?: readonly Card[]) {
-        this.items = items ? items.slice(): [];
+        this.cards = items ? items.slice(): [];        
+        this.length = this.cards.length;
     }
     
-    draw(): Card {        
-        return this.items[0];
+    draw(index = 0): Card {        
+        return this.cards[index];
     }
     
     map<U>(callbackfn: (value: Card) => U): U[] {
-        return this.items.map(callbackfn);
+        return this.cards.map(callbackfn);
     }
 
     reduce<U>(callbackfn: (previousValue: U, currentValue: Card, currentIndex: number, array: ReadonlyArray<Card>) => U, initialValue: U): U {
-        return this.items.reduce(callbackfn, initialValue);
+        return this.cards.reduce(callbackfn, initialValue);
     }
 
     without(cardToRemove: Card): Deck {
-        return new ShuffableDeck(this.items.filter((card: Card) => cardToRemove.id !== card.id));
+        return new ShuffableDeck(this.cards.filter((card: Card) => cardToRemove.id !== card.id));
     }
 
     with(cardToAdd: Card): Deck {
-        return new ShuffableDeck(this.items.concat(cardToAdd));
+        return new ShuffableDeck(this.cards.concat(cardToAdd));
     }
 
     shuffle(): Deck {
-        let length = this.items.length;
-        let copy = this.items.slice();
+        let length = this.cards.length;
+        let copy = this.cards.slice();
         const shuffled: Card[] = [];
     
         for (let i = 0; i < length; i++) {
@@ -72,7 +77,7 @@ export class ShuffableDeck implements Shuffable {
 let globalId = 0;
 export interface Card {
     readonly id: number;
-    readonly type: CardType;
+    readonly type: CardType[];
 
     cardPlayed(card: Card): Card;
     display: FunctionComponent<{}>;
@@ -81,9 +86,9 @@ export interface Card {
     endTurn(table: Encounter): Encounter;
 }
 
-export abstract class BaseCard implements Card {
+export class BaseCard implements Card {
     id: number;
-    type: CardType = CardType.Default;
+    type: CardType[] = [];
 
     constructor() {
         this.id = globalId++;         
@@ -94,5 +99,18 @@ export abstract class BaseCard implements Card {
     beginTurn = (table: Encounter): Encounter => table;
     play = (table: Encounter): Encounter => table;
     
-    abstract display: FunctionComponent<{}>;
+    display: FunctionComponent<{}>;
+}
+
+export class HigherOrderCard extends BaseCard {
+    constructor(readonly card: Card, props = {}) {
+        super();
+
+        return Object.assign(this, props);
+    }
+    cardPlayed = this.card.cardPlayed.bind(this.card);
+    endTurn = this.card.endTurn.bind(this.card);
+    beginTurn = this.card.beginTurn.bind(this.card);
+    play = this.card.play.bind(this.card);    
+    display =  this.card.display.bind(this.card);
 }
