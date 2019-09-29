@@ -26,7 +26,7 @@ class Heal extends BaseCard {
     play = (table: Encounter): Encounter => table.update({hero: table.hero.update({health: table.hero.health + this.hp})});
 
     // display: FunctionComponent<{}> = () => (<Image source={require('./images/MurderOfCrows.png')} style={styles.image}/> )
-    display: FunctionComponent<{}> = () => <Text >Heal</Text>
+    display: FunctionComponent<{}> = () => <Text >Heal {this.hp}</Text>
 
 }
 
@@ -50,8 +50,9 @@ class AddDamage extends BaseCard {
         
         return card;
     }
+    display: FunctionComponent<{}> = () => <Text >Add Damage {this.adder}</Text>
 
-    display: FunctionComponent<{}> = () => <Image source={require('./images/SwampMosquitoes.png')} style={styles.image}/>        
+    // display: FunctionComponent<{}> = () => <Image source={require('./images/SwampMosquitoes.png')} style={styles.image}/>        
 }
 
 class Poison extends BaseCard {  
@@ -74,12 +75,10 @@ class Poison extends BaseCard {
         
         return card;
     }
+    display: FunctionComponent<{}> = () => <Text >Poison {this.adder}</Text>
 
-    display: FunctionComponent<{}> = () => <Image source={require('./images/SwampMosquitoes.png')} style={styles.image}/>        
+    // display: FunctionComponent<{}> = () => <Image source={require('./images/SwampMosquitoes.png')} style={styles.image}/>        
 }
-
-
-
 
 class BlockDamage extends BaseCard {  
     constructor(readonly block: number) {
@@ -105,10 +104,8 @@ class BlockDamage extends BaseCard {
         return card;
     }
 
-    display: FunctionComponent<{}> = () => <Text >Block</Text>
-
+    display: FunctionComponent<{}> = () => <Text >Block {this.block}</Text>
 }
-
 
 class ReflectDamage extends BaseCard {  
     constructor(readonly reflect: number) {
@@ -135,7 +132,7 @@ class ReflectDamage extends BaseCard {
         return card;
     }
 
-    display: FunctionComponent<{}> = () => <Text >Reflect</Text>
+    display: FunctionComponent<{}> = () => <Text >Reflect {this.reflect}</Text>
 
 }
 
@@ -161,15 +158,16 @@ class DoubleDamage extends BaseCard {
         }
         return card;
     }
+    display: FunctionComponent<{}> = () => <Text >Multiply damage by {this.multiplier}</Text>
 
-    display: FunctionComponent<{}> = () => (<Image source={require('./images/ABeastInside.png')} style={styles.image}/>);
+    // display: FunctionComponent<{}> = () => (<Image source={require('./images/ABeastInside.png')} style={styles.image}/>);
 }
 
 export const D = (): Deck => new ShuffableDeck([new Punch(4), new Punch(4), new Punch(4), new Punch(4), new Punch(4), new Punch(4)]);
 
 export const XD = (): Deck => new ShuffableDeck([new BlockDamage(4), new Heal(4), new ReflectDamage(4), new Punch(4), new Punch(4), new Punch(4)]);
-export const XB = (): Deck => new ShuffableDeck([new DoubleDamage(3), new Punch(1), new Punch(1), new Punch(1), new Punch(3), new Punch(8)]);
-export const XT = (): Deck => new ShuffableDeck([new AddDamage(3), new Punch(1), new Punch(1), new Punch(2), new Punch(6), new Punch(6)]);
+export const XB = (): Deck => new ShuffableDeck([new DoubleDamage(4), new Punch(4), new Heal(4), new Punch(4), new Punch(4), new Punch(4)]);
+export const XT = (): Deck => new ShuffableDeck([new AddDamage(4), new Punch(4), new Punch(4), new Heal(4), new Punch(4), new Punch(4)]);
 
 
 export const nextEncounter = (): Deck => {
@@ -183,7 +181,8 @@ const CARDS = [
     Punch,
     Heal,
     BlockDamage,
-    ReflectDamage
+    ReflectDamage,
+    Poison
 ];
 
 export function nextCard(power: number): Card {

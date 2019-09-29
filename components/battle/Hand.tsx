@@ -8,12 +8,8 @@ export default function ({ onPlay = () => {}, cards }: { onPlay?: (card: Card) =
   return <ScrollView contentContainerStyle={styles.handContainer} horizontal={true} centerContent={true}>
     {cards.map((card: Card) => (
       <TouchableHighlight key={card.id} onPress={() => onPlay(card) } underlayColor='blue' onPressIn={() => setModalVisible(true)} onPressOut={() => setModalVisible(false)}  >
-
-
-        <View style={styles.card}>
-          
+        <View style={styles.card}>         
           {card.display({})}
-
         </View>
       </TouchableHighlight>
     )
@@ -35,9 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-
     backgroundColor: 'red'
-
   },
   handContainer: { flexGrow: 1, justifyContent: 'center',     alignItems: 'center', flex: 1}
 

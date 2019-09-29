@@ -29,7 +29,7 @@ export class Encounter {
             let card: Card = this.enemy.hand.draw()
             let playing: Card = this.enemy.effects.reduce((finalCard: Card, effect: Card) => effect.cardPlayed(finalCard), card);
             enemyView = playing.play(enemyView);
-            enemyView = enemyView.update({hero: enemyView.hero.without(card)})
+            enemyView = enemyView.update({hero: enemyView.hero.played(card)})
         }
 
         enemyView = enemyView.hero.effects.reduce((encounterUpdate, card) => card.endTurn(encounterUpdate), enemyView);    
@@ -41,12 +41,13 @@ export class Encounter {
         if (!card) return this;
         let playing: Card = this.hero.effects.reduce((finalCard: Card, effect: Card) => effect.cardPlayed(finalCard), card);
         let nextEncounter = playing.play(this);        
-        return nextEncounter.update({hero: nextEncounter.hero.without(card)});
+        return nextEncounter.update({hero: nextEncounter.hero.played(card)});
     }
 }
 
 export class Player {
     constructor(readonly health: number, readonly deck: Deck, readonly hand: Deck = new ShuffableDeck(), readonly effects: Deck = new ShuffableDeck()) {
+
     }
 
     draw(): Player {
@@ -58,8 +59,8 @@ export class Player {
         }
     }
 
-    without(card: Card): Player {
-        return new Player(this.health, this.deck, this.hand.without(card), this.effects);
+    played(card: Card): Player {
+        return new Player(this.health, new ShuffableDeck(this.deck.cards.concat(card)), this.hand.without(card), this.effects);
     }
 
     update({health = this.health}) {

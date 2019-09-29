@@ -9,13 +9,13 @@ export default function Home({ navigation }) {
 
       <View style={style.container} >
         <View style={style.button}>
-          <Button title="XD" onPress={() => navigation.navigate('Battle', { cards: XD(), enemyCards: D() })} />
+          <Button title="XD" onPress={() => navigation.navigate('Battle', { deck: XD(), enemyCards: D() })} />
         </View>
         <View style={style.button}>
-          <Button title="XB" onPress={() => navigation.navigate('Battle', { cards: XB(), enemyCards: nextEncounter() })} />
+          <Button title="XB" onPress={() => navigation.navigate('Battle', { deck: XB(), enemyCards: nextEncounter() })} />
         </View>
         <View style={style.button}>
-          <Button title="XT" onPress={() => navigation.navigate('Battle', { cards: XT(), enemyCards: nextEncounter() })} />
+          <Button title="XT" onPress={() => navigation.navigate('Battle', { deck: XT(), enemyCards: nextEncounter() })} />
         </View>
       </View>
     </ImageBackground>

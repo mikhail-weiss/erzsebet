@@ -8,12 +8,13 @@ import { Card, Deck } from '../model/Cards';
 import { nextEncounter } from '../cards/builds';
 
 
+interface BattleProps { navigation: any, deck: Deck, enemyCards: Deck, count: number };
 const CHAPTERS = 5;
-function Battle({ navigation, cards, enemyCards, count = CHAPTERS }:
-    { navigation: any, cards: Deck, enemyCards: Deck, count: number }) {
+function Battle({ navigation, deck, enemyCards, count = CHAPTERS }: BattleProps) {
     // const [hero, setHero] = useState();
     // const [enemy, setEnemy] = useState();
-    const [encounter, setEncounter] = useState(new Encounter(new Player(16, cards), new Player(16, enemyCards).draw()));
+    let hero = new Player(Math.ceil(deck.length*2), deck);
+    const [encounter, setEncounter] = useState(new Encounter(hero.draw(), new Player(Math.ceil(deck.length*2), enemyCards).draw()));
 
     const endTurn = () => {
         setEncounter(encounter.endTurn());
@@ -21,23 +22,23 @@ function Battle({ navigation, cards, enemyCards, count = CHAPTERS }:
 
     useEffect(() => {
         if (encounter.hero.health <= 0) {
-            navigation.navigate('Lost', { cards });
+            navigation.navigate('Lost', { deck });
         }
 
         if (encounter.enemy.health <= 0) {
-            navigation.navigate('Win', { cards, count });
+            navigation.navigate('Win', { deck, count });
         }
     });
 
     return (
         <ImageBackground source={require('./street.jpg')} style={{ width: '100%', height: '100%' }}>
-            <View style={style.container}>
+            <View style={styles.container}>
                 <Text>Chapter {CHAPTERS + 1 - count}</Text>
-                <View style={style.hand}>
+                <View style={styles.hand}>
                     <Hand cards={encounter.enemy.hand}></Hand>
                 </View>
 
-                <View style={style.table}>
+                <View style={styles.table}>
                     <Table>
                         <Text style={{ alignSelf: 'center' }}>Enemy</Text>
                         <Text>Health: {encounter.enemy.health}</Text>
@@ -45,7 +46,7 @@ function Battle({ navigation, cards, enemyCards, count = CHAPTERS }:
                         <Text>Health: {encounter.hero.health}</Text>
                     </Table>
                 </View>
-                <View style={style.hand}>
+                <View style={styles.hand}>
                     <Hand onPlay={(card: Card) => setEncounter(encounter.heroPlaysCard(card))} cards={encounter.hero.hand}></Hand>
                 </View>
                 <Button title="end turn" onPress={() => endTurn()}></Button>
@@ -57,7 +58,7 @@ function Battle({ navigation, cards, enemyCards, count = CHAPTERS }:
 
 export default withMappedNavigationParams()(Battle);
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
