@@ -1,5 +1,10 @@
 import { Card, Deck, ShuffableDeck } from "./Cards";
 
+export interface EncounterInterface {
+    hero: Player;
+    enemy: Player;
+}
+
 export class Encounter {
     constructor(readonly hero: Player, readonly enemy: Player) {
         
@@ -16,6 +21,17 @@ export class Encounter {
         return encounter.hero.effects.reduce((encounterUpdate, card) => card.beginTurn(encounterUpdate), encounter);    
     }
 
+    apply(cb: (props: EncounterInterface) => EncounterInterface): Encounter {
+        return this.update(cb(this))        
+    }
+
+    updateHero(cb: Action) {
+        return new Encounter(this.hero.apply(cb), this.enemy);
+    }
+
+    updateEnemy(cb: Action) {
+        return new Encounter(this.hero, this.enemy.apply(cb));
+    }
 
     update({hero = this.hero, enemy = this.enemy}) {
         return new Encounter(hero, enemy);
@@ -29,25 +45,34 @@ export class Encounter {
             let card: Card = this.enemy.hand.draw()
             let playing: Card = this.enemy.effects.reduce((finalCard: Card, effect: Card) => effect.cardPlayed(finalCard), card);
             enemyView = playing.play(enemyView);
-            enemyView = enemyView.update({hero: enemyView.hero.played(card)})
+            enemyView = enemyView.updateHero(played(card))
         }
 
         enemyView = enemyView.hero.effects.reduce((encounterUpdate, card) => card.endTurn(encounterUpdate), enemyView);    
         return new Encounter(enemyView.enemy, enemyView.hero);
     }
 
-
     heroPlaysCard(card: Card): Encounter {
         if (!card) return this;
         let playing: Card = this.hero.effects.reduce((finalCard: Card, effect: Card) => effect.cardPlayed(finalCard), card);
         let nextEncounter = playing.play(this);        
-        return nextEncounter.update({hero: nextEncounter.hero.played(card)});
+        return nextEncounter.updateHero(played(card));
     }
 }
 
-export class Player {
-    constructor(readonly health: number, readonly deck: Deck, readonly hand: Deck = new ShuffableDeck(), readonly effects: Deck = new ShuffableDeck()) {
+export interface Action {
+    (props: PlayerProps): PlayerProps
+}
 
+interface PlayerProps {
+    health?: number; 
+    deck?: Deck;
+    hand?: Deck; 
+    effects?: Deck;
+}
+
+export class Player implements PlayerProps {
+    constructor(readonly health: number, readonly deck: Deck, readonly hand: Deck = new ShuffableDeck(), readonly effects: Deck = new ShuffableDeck()) {
     }
 
     draw(): Player {
@@ -58,42 +83,17 @@ export class Player {
             return this;
         }
     }
-
-    played(card: Card): Player {
-        return new Player(this.health, new ShuffableDeck(this.deck.cards.concat(card)), this.hand.without(card), this.effects);
+    
+    apply(cb: (props: PlayerProps) => PlayerProps): Player {
+        return this.update(cb(this))        
     }
 
-    update({health = this.health}) {
-        return new Player(health, this.deck, this.hand, this.effects);
+    update({health = this.health, deck = this.deck, hand = this.hand, effects = this.effects}: PlayerProps) {
+        return new Player(health, deck, hand, effects);
     }
-
-    withEffect(card: Card) {
-        return new Player(this.health, this.deck, this.hand, this.effects.with(card));
-    }
-
-    withoutEffect(card: Card) {
-        return new Player(this.health, this.deck, this.hand, this.effects.without(card));
-    }
-    // play = function(card: Card): Player {
-        // this.powers.forEach(power => {
-        //     power(card);
-        // });
-        // this.boosts.forEach(power => {
-        //     power(card);
-        // });
-        
-        // return Object.assign({}, this, {
-        //     boosts: [],
-        //     hand: this.hand.filter((cardInHand: Card) => cardInHand !== card)
-        // });
-    // }
-
-    // endTurn = function(): Player {
-    //     if (this.deck.length > 0) {
-    //         return Object.assign({}, this, {hand: this.hand.concat(this.deck.pop())} );
-    //     }
-
-    //     return this;
-    // }
 }
 
+export const damage = (dmg: number): Action => ({health}) => ({health: health - dmg});
+export const withoutEffect = (card: Card): Action => ({effects}) => ({effects: effects.without(card)});
+export const withEffect = (card: Card): Action => ({effects}) => ({effects: effects.with(card)});
+export const played = (card: Card): Action => ({deck, hand}) => ({deck: new ShuffableDeck(deck.cards.concat(card)), hand: hand.without(card)});
