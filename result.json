@@ -1,451 +1,60 @@
-[
-    {
-        "max": 12,
-        "min": 4,
-        "mid": 24,
-        "deck": {
-            "cards": [
-                {
-                    "type": [],
-                    "id": 474338,
-                    "adder": 2
-                },
-                {
-                    "type": [],
-                    "id": 474339,
-                    "multiplier": 3
-                },
-                {
-                    "type": [],
-                    "id": 474340,
-                    "adder": 2
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474341,
-                    "dmg": 4
-                },
-                {
-                    "type": [],
-                    "id": 474342,
-                    "multiplier": 3
-                },
-                {
-                    "type": [],
-                    "id": 474343,
-                    "adder": 2
-                }
-            ],
-            "length": 6
-        },
-        "fitness": -12
-    },
-    {
-        "max": 12,
-        "min": 4,
-        "mid": 24,
-        "deck": {
-            "cards": [
-                {
-                    "type": [],
-                    "id": 474344,
-                    "adder": 1
-                },
-                {
-                    "type": [],
-                    "id": 474345,
-                    "adder": 1
-                },
-                {
-                    "type": [],
-                    "id": 474346,
-                    "multiplier": 3
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474347,
-                    "dmg": 4
-                },
-                {
-                    "type": [],
-                    "id": 474348,
-                    "adder": 2
-                },
-                {
-                    "type": [],
-                    "id": 474349,
-                    "multiplier": 2
-                }
-            ],
-            "length": 6
-        },
-        "fitness": -12
-    },
-    {
-        "max": 15,
-        "min": 9,
-        "mid": 24,
-        "deck": {
-            "cards": [
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474332,
-                    "dmg": 1
-                },
-                {
-                    "type": [],
-                    "id": 474333,
-                    "multiplier": 1
-                },
-                {
-                    "type": [],
-                    "id": 474334,
-                    "multiplier": 2
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474335,
-                    "dmg": 4
-                },
-                {
-                    "type": [],
-                    "id": 474336,
-                    "adder": 1
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474337,
-                    "dmg": 4
-                }
-            ],
-            "length": 6
-        },
-        "fitness": -9
-    },
-    {
-        "max": 6,
-        "min": 2,
-        "mid": 12,
-        "deck": {
-            "cards": [
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474356,
-                    "dmg": 2
-                },
-                {
-                    "type": [],
-                    "id": 474357,
-                    "adder": 2
-                },
-                {
-                    "type": [],
-                    "id": 474358,
-                    "adder": 3
-                },
-                {
-                    "type": [],
-                    "id": 474359,
-                    "adder": 2
-                },
-                {
-                    "type": [],
-                    "id": 474360,
-                    "adder": 2
-                },
-                {
-                    "type": [],
-                    "id": 474361,
-                    "adder": 4
-                }
-            ],
-            "length": 6
-        },
-        "fitness": -6
-    },
-    {
-        "max": 6,
-        "min": 2,
-        "mid": 12,
-        "deck": {
-            "cards": [
-                {
-                    "type": [],
-                    "id": 474362,
-                    "multiplier": 3
-                },
-                {
-                    "type": [],
-                    "id": 474363,
-                    "adder": 3
-                },
-                {
-                    "type": [],
-                    "id": 474364,
-                    "multiplier": 3
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474365,
-                    "dmg": 2
-                },
-                {
-                    "type": [],
-                    "id": 474366,
-                    "multiplier": 2
-                },
-                {
-                    "type": [],
-                    "id": 474367,
-                    "multiplier": 3
-                }
-            ],
-            "length": 6
-        },
-        "fitness": -6
-    },
-    {
-        "max": 20,
-        "min": 6,
-        "mid": 24,
-        "deck": {
-            "cards": [
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474368,
-                    "dmg": 1
-                },
-                {
-                    "type": [],
-                    "id": 474369,
-                    "adder": 3
-                },
-                {
-                    "type": [],
-                    "id": 474370,
-                    "adder": 3
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474371,
-                    "dmg": 4
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474372,
-                    "dmg": 1
-                },
-                {
-                    "type": [],
-                    "id": 474373,
-                    "multiplier": 3
-                }
-            ],
-            "length": 6
-        },
-        "fitness": -4
-    },
-    {
-        "max": 4,
-        "min": 1,
-        "mid": 6,
-        "deck": {
-            "cards": [
-                {
-                    "type": [],
-                    "id": 474374,
-                    "adder": 1
-                },
-                {
-                    "type": [],
-                    "id": 474375,
-                    "multiplier": 4
-                },
-                {
-                    "type": [],
-                    "id": 474376,
-                    "multiplier": 4
-                },
-                {
-                    "type": [],
-                    "id": 474377,
-                    "multiplier": 4
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474378,
-                    "dmg": 1
-                },
-                {
-                    "type": [],
-                    "id": 474379,
-                    "multiplier": 2
-                }
-            ],
-            "length": 6
-        },
-        "fitness": -2
-    },
-    {
-        "max": 0,
-        "min": 0,
-        "mid": 0,
-        "deck": {
-            "cards": [
-                {
-                    "type": [],
-                    "id": 474326,
-                    "multiplier": 1
-                },
-                {
-                    "type": [],
-                    "id": 474327,
-                    "adder": 4
-                },
-                {
-                    "type": [],
-                    "id": 474328,
-                    "adder": 3
-                },
-                {
-                    "type": [],
-                    "id": 474329,
-                    "adder": 4
-                },
-                {
-                    "type": [],
-                    "id": 474330,
-                    "adder": 2
-                },
-                {
-                    "type": [],
-                    "id": 474331,
-                    "adder": 2
-                }
-            ],
-            "length": 6
-        },
-        "fitness": 0
-    },
-    {
-        "max": 0,
-        "min": 0,
-        "mid": 0,
-        "deck": {
-            "cards": [
-                {
-                    "type": [],
-                    "id": 474380,
-                    "multiplier": 3
-                },
-                {
-                    "type": [],
-                    "id": 474381,
-                    "adder": 4
-                },
-                {
-                    "type": [],
-                    "id": 474382,
-                    "multiplier": 2
-                },
-                {
-                    "type": [],
-                    "id": 474383,
-                    "multiplier": 1
-                },
-                {
-                    "type": [],
-                    "id": 474384,
-                    "adder": 2
-                },
-                {
-                    "type": [],
-                    "id": 474385,
-                    "multiplier": 4
-                }
-            ],
-            "length": 6
-        },
-        "fitness": 0
-    },
-    {
-        "max": 14,
-        "min": 4,
-        "mid": 12,
-        "deck": {
-            "cards": [
-                {
-                    "type": [],
-                    "id": 474350,
-                    "adder": 3
-                },
-                {
-                    "type": [],
-                    "id": 474351,
-                    "multiplier": 4
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474352,
-                    "dmg": 2
-                },
-                {
-                    "type": [],
-                    "id": 474353,
-                    "adder": 4
-                },
-                {
-                    "type": [],
-                    "id": 474354,
-                    "adder": 2
-                },
-                {
-                    "type": [
-                        1,
-                        2
-                    ],
-                    "id": 474355,
-                    "dmg": 2
-                }
-            ],
-            "length": 6
-        },
-        "fitness": 2
-    }
-]
+"adder": 3
+"adder": 3
+"adder": 3
+"adder": 4
+"adder": 4
+"adder": 4
+"block": 1
+"block": 4
+"dmg": 1
+"dmg": 2
+"dmg": 3
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"dmg": 4
+"hp": 2
+"hp": 2
+"hp": 3
+"hp": 3
+"hp": 3
+"hp": 3
+"hp": 3
+"hp": 3
+"hp": 3
+"multiplier": 2
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"multiplier": 4
+"reflect": 1
+"reflect": 1
+"reflect": 3

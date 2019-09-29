@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Button, ImageBackground } from "react-native";
-import { D, XB, XT, nextEncounter } from "../cards/builds";
+import { D, XB, XT, nextEncounter, XD } from "../cards/builds";
 import { StyleSheet } from 'react-native';
 
 export default function Home({ navigation }) {
@@ -9,7 +9,7 @@ export default function Home({ navigation }) {
 
       <View style={style.container} >
         <View style={style.button}>
-          <Button title="D" onPress={() => navigation.navigate('Battle', { cards: D(), enemyCards: nextEncounter() })} />
+          <Button title="XD" onPress={() => navigation.navigate('Battle', { cards: XD(), enemyCards: D() })} />
         </View>
         <View style={style.button}>
           <Button title="XB" onPress={() => navigation.navigate('Battle', { cards: XB(), enemyCards: nextEncounter() })} />

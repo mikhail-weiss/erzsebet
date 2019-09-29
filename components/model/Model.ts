@@ -8,12 +8,11 @@ export class Encounter {
     endTurn() {
         let encounter: Encounter = this;
         encounter = encounter.hero.effects.reduce((encounterUpdate, card) => card.endTurn(encounterUpdate), encounter);
-    
         encounter = encounter.update({enemy: encounter.enemy.draw()}); 
+
+        encounter = encounter.enemyTurn();
         
-        encounter = encounter.enemyPlaysCard(encounter.enemy.hand.draw());
         encounter = encounter.update({hero: encounter.hero.draw()}); 
-        //give a card
         return encounter.hero.effects.reduce((encounterUpdate, card) => card.beginTurn(encounterUpdate), encounter);    
     }
 
@@ -22,12 +21,19 @@ export class Encounter {
         return new Encounter(hero, enemy);
     }
 
-    enemyPlaysCard(card: Card) {
-        if (!card) return this;
-        let playing: Card = this.enemy.effects.reduce((finalCard: Card, effect: Card) => effect.cardPlayed(finalCard), card);
-        let nextEncounter = playing.play(new Encounter(this.enemy, this.hero));
-        nextEncounter = new Encounter(nextEncounter.enemy, nextEncounter.hero);
-        return nextEncounter.update({enemy: nextEncounter.enemy.without(card)});
+    enemyTurn() {
+        let enemyView = new Encounter(this.enemy, this.hero);
+        enemyView = enemyView.hero.effects.reduce((encounterUpdate, card) => card.beginTurn(encounterUpdate), enemyView);
+
+        if (this.enemy.hand.length > 0) {
+            let card: Card = this.enemy.hand.draw()
+            let playing: Card = this.enemy.effects.reduce((finalCard: Card, effect: Card) => effect.cardPlayed(finalCard), card);
+            enemyView = playing.play(enemyView);
+            enemyView = enemyView.update({hero: enemyView.hero.without(card)})
+        }
+
+        enemyView = enemyView.hero.effects.reduce((encounterUpdate, card) => card.endTurn(encounterUpdate), enemyView);    
+        return new Encounter(enemyView.enemy, enemyView.hero);
     }
 
 
