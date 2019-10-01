@@ -1,7 +1,8 @@
+import { BaseCard, Card, CardType, Deck, HigherOrderCard, ShuffableDeck } from 'components/model/Cards';
+import { Encounter } from 'components/model/Encounter';
+import { damage, withEffect, withoutEffect } from 'components/model/Player';
 import React, { FunctionComponent } from 'react';
-import { Text, StyleSheet, Image } from 'react-native';
-import { BaseCard, CardType, Deck, ShuffableDeck, Card, HigherOrderCard } from 'components/model/Cards';
-import { Encounter, Action, damage, withEffect, withoutEffect } from 'components/model/Model';
+import { StyleSheet, Text } from 'react-native';
 
 const styles = StyleSheet.create({
     title: { textAlign: 'center', marginBottom: 2, flex: 1 },
@@ -25,9 +26,7 @@ class Heal extends BaseCard {
     play = (table: Encounter): Encounter => table.updateHero(damage(-this.hp));
 
     display: FunctionComponent<{}> = () => <Text >Heal {this.hp}</Text>
-
 }
-
 
 class AddDamage extends BaseCard {  
     constructor(readonly adder: number) {
@@ -51,8 +50,8 @@ class AddDamage extends BaseCard {
 class Poison extends BaseCard {  
     constructor(private duration: number) {super();}
 
-    play = (table: Encounter): Encounter => table.updateEnemy(withEffect(this));
-    endTurn = (table: Encounter): Encounter => table.updateEnemy(damage(1));
+    play = (table: Encounter): Encounter => table.updateHero(withEffect(this));
+    endTurn = (table: Encounter): Encounter => table.updateHero(damage(1));
     beginTurn = (table: Encounter): Encounter => this.duration-- ? table: table.updateEnemy(withoutEffect(this));
     display: FunctionComponent<{}> = () => <Text >Poison for {this.duration} turns</Text>
 }
@@ -108,15 +107,13 @@ class ReflectDamage extends BaseCard {
     }
 
     display: FunctionComponent<{}> = () => <Text >Reflect {this.reflect}</Text>
-
 }
-
 
 class DoubleDamage extends BaseCard {
     constructor(readonly multiplier: number) {
         super();
     }
-    play = (table: Encounter): Encounter => table.update({hero: table.hero.apply(withEffect(this))});
+    play = (table: Encounter): Encounter => table.updateHero(withEffect(this));
 
     cardPlayed = (card: Card): Card => {
         if(card.type.includes(CardType.Damage)) {
@@ -131,7 +128,7 @@ class DoubleDamage extends BaseCard {
         }
         return card;
     }
-    display: FunctionComponent<{}> = () => <Text >Multiply damage by {this.multiplier}</Text>
+    display: FunctionComponent<{}> = () => <Text >Multiply next damage by {this.multiplier}</Text>
 }
 
 export const D = (): Deck => new ShuffableDeck([new Punch(4), new Punch(4), new Punch(4), new Punch(4), new Punch(4), new Punch(4)]);
@@ -141,8 +138,12 @@ export const XB = (): Deck => new ShuffableDeck([new DoubleDamage(4), new Punch(
 export const XT = (): Deck => new ShuffableDeck([new AddDamage(4), new Punch(4), new Punch(4), new Heal(4), new Punch(4), new Punch(4)]);
 
 
-export const nextEncounter = (): Deck => {
-    return [D, XB, XT][Math.floor((Math.random() * 3))]();
+export const nextEncounter = (length: number): Deck => new ShuffableDeck(Array.from(cardGenerator(3, length)));
+
+export function* cardGenerator(power: number, count: number) {
+    while(count--) {        
+        yield nextCard(power);
+    }
 }
 
 const CARDS = [

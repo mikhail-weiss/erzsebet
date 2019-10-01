@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Encounter } from "./Model";
+import { Encounter } from "./Encounter";
 
 // 5 dmg
 // 10 dmg at the beginning of the next turn

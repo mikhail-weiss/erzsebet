@@ -1,11 +1,12 @@
 import { XB, XT, D, nextCard } from 'components/cards/builds';
 import { Card, Deck, HigherOrderCard, ShuffableDeck } from "components/model/Cards";
-import { Encounter, Player } from "components/model/Model";
+import { Player } from "components/model/Player";
 import { registerRootComponent } from 'expo';
 import { activateKeepAwake } from 'expo-keep-awake';
 import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import Histogram from 'components/react-native-histogram/Histogram';
+import { Encounter } from 'components/model/Encounter';
 
 
 if (__DEV__) {

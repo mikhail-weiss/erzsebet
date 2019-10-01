@@ -3,18 +3,17 @@ import { View, StyleSheet, Text, Button, Image, ImageBackground } from 'react-na
 import Hand from 'components/battle/Hand';
 import Table from 'components/Table';
 import { withMappedNavigationParams } from 'react-navigation-props-mapper'
-import { Player, Encounter } from '../model/Model';
+import { Player } from '../model/Player';
 import { Card, Deck } from '../model/Cards';
-import { nextEncounter } from '../cards/builds';
-
+import { Encounter } from 'components/model/Encounter';
 
 interface BattleProps { navigation: any, deck: Deck, enemyCards: Deck, count: number };
 const CHAPTERS = 5;
 function Battle({ navigation, deck, enemyCards, count = CHAPTERS }: BattleProps) {
     // const [hero, setHero] = useState();
     // const [enemy, setEnemy] = useState();
-    let hero = new Player(Math.ceil(deck.length*2), deck);
-    const [encounter, setEncounter] = useState(new Encounter(hero.draw(), new Player(Math.ceil(deck.length*2), enemyCards).draw()));
+    let hero = new Player(Math.ceil(deck.length*4), deck);
+    const [encounter, setEncounter] = useState(new Encounter(hero.draw(), new Player(Math.ceil(deck.length*4), enemyCards).draw()));
 
     const endTurn = () => {
         setEncounter(encounter.endTurn());
@@ -38,6 +37,10 @@ function Battle({ navigation, deck, enemyCards, count = CHAPTERS }: BattleProps)
                     <Hand cards={encounter.enemy.hand}></Hand>
                 </View>
 
+                <View style={styles.hand}>
+                    <Hand cards={encounter.enemy.effects}></Hand>
+                </View>
+
                 <View style={styles.table}>
                     <Table>
                         <Text style={{ alignSelf: 'center' }}>Enemy</Text>
@@ -45,6 +48,9 @@ function Battle({ navigation, deck, enemyCards, count = CHAPTERS }: BattleProps)
                         <Text style={{ alignSelf: 'center' }}>Hero</Text>
                         <Text>Health: {encounter.hero.health}</Text>
                     </Table>
+                </View>
+                <View style={styles.hand}>
+                    <Hand cards={encounter.hero.effects}></Hand>
                 </View>
                 <View style={styles.hand}>
                     <Hand onPlay={(card: Card) => setEncounter(encounter.heroPlaysCard(card))} cards={encounter.hero.hand}></Hand>

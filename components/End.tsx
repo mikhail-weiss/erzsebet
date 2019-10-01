@@ -17,7 +17,7 @@ export const Win = withMappedNavigationParams()(({ navigation, deck, count }: Wi
     count = count - 1;
 
     const onChoose = (card: Card) => {
-        navigation.navigate('Battle', { deck: new ShuffableDeck(deck.cards.concat(card)).shuffle(), enemyCards: nextEncounter(), count })        
+        navigation.navigate('Battle', { deck: new ShuffableDeck(deck.cards.concat(card)).shuffle(), enemyCards: nextEncounter(deck.length+1), count })        
     }
     return (
         <View style={styles.choose}>
