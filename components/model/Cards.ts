@@ -13,10 +13,10 @@ import { Encounter } from "./Encounter";
 // transfer damage to familiar
 // 10hp minion with 2hp counter
 
-export enum CardType {
-    Default,
+export enum CardType {    
     Touch,
-    Damage
+    Damage,
+    Heal
 }
 
 interface Shuffable {
@@ -73,11 +73,22 @@ export class ShuffableDeck implements Shuffable {
     }
 }
 
-
 let globalId = 0;
-export interface Card {
+
+export interface CardProps {
+    readonly id?: number;
+    display?: FunctionComponent<{}>;
+
+    is?: (type: CardType) => boolean;
+    cardPlayed?: (card: Card) => Card;
+    play?: (table: Encounter) => Encounter;
+    beginTurn?: (table: Encounter) => Encounter;
+    endTurn?: (table: Encounter) => Encounter;
+}
+
+export interface Card extends CardProps {
+    is(type: CardType): boolean;
     readonly id: number;
-    readonly type: CardType[];
 
     cardPlayed(card: Card): Card;
     display: FunctionComponent<{}>;
@@ -87,8 +98,9 @@ export interface Card {
 }
 
 export class BaseCard implements Card {
+
     id: number;
-    type: CardType[] = [];
+    types: CardType[] = [];
 
     constructor() {
         this.id = globalId++;         
@@ -98,12 +110,12 @@ export class BaseCard implements Card {
     endTurn = (table: Encounter): Encounter => table;
     beginTurn = (table: Encounter): Encounter => table;
     play = (table: Encounter): Encounter => table;
-    
+    is = (type: CardType): boolean => this.types.includes(type);
     display: FunctionComponent<{}>;
 }
 
 export class HigherOrderCard extends BaseCard {
-    constructor(readonly card: Card, props = {}) {
+    constructor(readonly card: Card, props: CardProps = {}) {
         super();
 
         return Object.assign(this, props);
@@ -113,4 +125,6 @@ export class HigherOrderCard extends BaseCard {
     beginTurn = this.card.beginTurn.bind(this.card);
     play = this.card.play.bind(this.card);    
     display =  this.card.display.bind(this.card);
+    is = this.card.is.bind(this.card);
+
 }

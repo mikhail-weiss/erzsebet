@@ -35,7 +35,10 @@ export class Player implements PlayerProps {
     }
 }
 
-export const damage = (dmg: number): Action => ({health}) => ({health: health - dmg});
+export const damage = (dmg: number): Action => ({health}) => ({health: health - Math.floor(dmg)});
 export const withoutEffect = (card: Card): Action => ({effects}) => ({effects: effects.without(card)});
 export const withEffect = (card: Card): Action => ({effects}) => ({effects: effects.with(card)});
-export const played = (card: Card): Action => ({deck, hand}) => ({deck: new ShuffableDeck(deck.cards.concat(card)), hand: hand.without(card)});
+export const played = (card: Card): Action => ({hand}) => ({hand: hand.without(card)});
+export const returnCard = (card: Card): Action => ({deck}) => ({deck: deck.with(card)});
+export const addEffect = (card: Card): Action => (props) => Object.assign(withEffect(card)(props), played(card)(props));
+export const removeEffect = (card: Card): Action => (props) => Object.assign(withoutEffect(card)(props), returnCard(card)(props));

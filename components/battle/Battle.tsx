@@ -41,13 +41,11 @@ function Battle({ navigation, deck, enemyCards, count = CHAPTERS }: BattleProps)
                     <Hand cards={encounter.enemy.effects}></Hand>
                 </View>
 
-                <View style={styles.table}>
-                    <Table>
-                        <Text style={{ alignSelf: 'center' }}>Enemy</Text>
-                        <Text>Health: {encounter.enemy.health}</Text>
-                        <Text style={{ alignSelf: 'center' }}>Hero</Text>
-                        <Text>Health: {encounter.hero.health}</Text>
-                    </Table>
+                <View style={styles.tableContainer}>
+                    <View style={styles.table}>
+                        <Text style={styles.hud}>Enemy {encounter.enemy.health}</Text>
+                        <Text style={styles.hud}>Hero {encounter.hero.health}</Text>
+                    </View>
                 </View>
                 <View style={styles.hand}>
                     <Hand cards={encounter.hero.effects}></Hand>
@@ -70,10 +68,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    table: {
+    tableContainer: {
         flex: 10,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center',    
+    },
+    table: {
+        flexDirection: 'column',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+
+    },
+    hud: {
+        color: 'white',
+        fontSize: 20,
+        alignSelf: 'center'
     },
     hand: {
         height: 130,

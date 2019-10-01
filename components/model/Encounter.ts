@@ -12,7 +12,7 @@ export class Encounter {
         
     }
 
-    endTurn() {
+    endTurn(): Encounter {
         let encounter: Encounter = this;
         encounter = encounter.hero.effects.reduce((encounterUpdate, card) => card.endTurn(encounterUpdate), encounter);
         encounter = encounter.update({enemy: encounter.enemy.draw()}); 
@@ -27,19 +27,19 @@ export class Encounter {
         return this.update(cb(this))        
     }
 
-    updateHero(cb: Action) {
-        return new Encounter(this.hero.apply(cb), this.enemy);
+    updateHero(...callbacks: Action[]): Encounter {       
+        return callbacks.reduce((acc, cb) => new Encounter(acc.hero.apply(cb), acc.enemy), this);
     }
 
-    updateEnemy(cb: Action) {
-        return new Encounter(this.hero, this.enemy.apply(cb));
+    updateEnemy(...callbacks: Action[]): Encounter {
+        return callbacks.reduce((acc, cb) => new Encounter(acc.hero, acc.enemy.apply(cb)), this);        
     }
 
-    update({hero = this.hero, enemy = this.enemy}) {
+    update({hero = this.hero, enemy = this.enemy}): Encounter {
         return new Encounter(hero, enemy);
     }
 
-    enemyTurn() {
+    enemyTurn(): Encounter {
         let enemyView = new Encounter(this.enemy, this.hero);
         enemyView = enemyView.hero.effects.reduce((encounterUpdate, card) => card.beginTurn(encounterUpdate), enemyView);
 

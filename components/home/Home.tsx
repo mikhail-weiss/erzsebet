@@ -12,7 +12,7 @@ export default function Home({ navigation }) {
           <Button title="XD" onPress={() => navigation.navigate('Battle', { deck: XD(), enemyCards: nextEncounter(6) })} />
         </View>
         <View style={style.button}>
-          <Button title="XB" onPress={() => navigation.navigate('Battle', { deck: XB(), enemyCards: nextEncounter(6) })} />
+          <Button title="XB" onPress={() => navigation.navigate('Battle', { deck: XB(), enemyCards: D() })} />
         </View>
         <View style={style.button}>
           <Button title="XT" onPress={() => navigation.navigate('Battle', { deck: XT(), enemyCards: nextEncounter(6) })} />
